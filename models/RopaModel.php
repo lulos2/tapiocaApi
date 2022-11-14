@@ -29,11 +29,11 @@ class RopaModel {
         return $producto;
     }
 
-    function getProductsByCategory($category){
-        $sentencia= $this->db->prepare("SELECT * FROM ropa WHERE id_tipo_fk = ?");
-        $sentencia ->execute([$category]);
-        $productsByCategory = $sentencia->fetchAll(PDO::FETCH_OBJ);
-        return $productsByCategory;
+    function getProductsByAttribute($attribute) {
+        $sentencia = $this->db->prepare("SELECT * FROM ropa WHERE ". $attribute . " = ?");
+        $sentencia ->execute([$attribute]);
+        $productsByAttribute = $sentencia->fetchAll(PDO::FETCH_OBJ);
+        return $productsByAttribute;
     }
 
     public function insertProduct($precio,$nombre,$descripcion,$coleccion = null,$categoria = null,$slug){
@@ -57,6 +57,13 @@ class RopaModel {
     public function updateProduct($id,$precio,$nombre,$descripcion,$coleccion,$categoria,$img){
         $sentencia = $this->db->prepare("UPDATE ropa SET precio = ?, nombre = ?, descripcion = ?, id_coleccion_fk = ?, id_tipo_fk = ?, img = ? WHERE id = ?");
         $sentencia->execute(array($precio,$nombre,$descripcion,$coleccion,$categoria,$img,$id));
+    }
+
+    public function getAttributes() {
+        $sentencia = $this->db->prepare("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'ropa'");
+        $sentencia->execute([]);
+        $attributes = $sentencia->fetchAll(PDO::FETCH_OBJ);
+        return $attributes;
     }
 
 
