@@ -9,16 +9,13 @@ class ApiProductController extends BaseController {
 
     private $categoriaModel;
     private $ropaModel;
-    private $view;
-    private $max_size;
     private $coleccionModel;
+    private $entityAttributes;
 
-    function __construct($max_size = 1000000) {
-        $this->categoriaModel = new CategoriaModel();
+    function __construct() {
+        parent::__construct();
         $this->ropaModel = new RopaModel();
-        $this->view = new ApiView();
-        $this->coleccionModel = new ColeccionModel();
-        $this->max_size = $max_size;
+        $this->entityAttributes = $this->ropaModel->getAttributes();
     }
 
     public function getProduct($params = null) {
@@ -35,7 +32,20 @@ class ApiProductController extends BaseController {
         if($products)
             $this->view->response($products, 200);
         else
-            $this->view->response("No hay producctos", 404);
+            $this->view->response("No hay productos", 404);
+    }
+
+    public function getFilterProducts($attribute) {
+        if (in_array($attribute, $this->entityAttributes)) {
+            $products = $this->ropaModel->getProductsByAttribute($attribute);
+            if($products)
+                $this->view->response($products, 200);
+            else
+                $this->view->response("No hay productos", 404);
+        }
+        else {
+            $this->view->response("Atributo no existente", 404);
+        }
     }
 
     public function deleteProduct($params = null) {
@@ -45,8 +55,9 @@ class ApiProductController extends BaseController {
             $this->ropaModel->deleteProduct($id);
             $this->view->response("El producto con id = $id fue borrado", 200);
         }
-        else
+        else {
             $this->view->response("El producto no existe", 404);
+        }
     }
 
     public function insertProduct() {
@@ -63,38 +74,5 @@ class ApiProductController extends BaseController {
             $this->view->response("Invalid JSON", 400);
     }
 
-
-    public function deleteCategory($params = null) {
-        $id = $params[':ID'];
-        $product = $this->ropaModel->getProduct($id);
-        if($product) {
-            $this->ropaModel->deleteProduct($id);
-            $this->view->response("El producto con id = $id fue borrado", 200);
-        }
-        else
-            $this->view->response("El producto no existe", 404);
-    }
-    public function modifyCategoryAction($id, $newCategory) {
-        $this->categoriaModel->updateCategoy($id , $newCategory);
-        $this->redirectRoute("admin");
-    }
-
-    public function insertCollectionAction($nameCollection,$yearCollection,$authorCollection,$stationCollection) {
-        if(is_int($yearCollection)) {
-            $this->coleccionModel->insertCollection($nameCollection, $yearCollection, $authorCollection, $stationCollection);
-            $this->redirectRoute("admin");
-        }
-        else $this->redirectRoute("admin");
-    }
-
-    public function updateCollectionAction($collectionId,$nameCollection,$yearCollection,$authorCollection,$stationCollection) {
-        $this->coleccionModel->updateCollection($collectionId,$nameCollection,$yearCollection,$authorCollection,$stationCollection);
-        $this->redirectRoute("admin");
-    }
-
-    public function deleteCollectionAction($collectionId) {
-        $this->coleccionModel->deleteCollection($collectionId);
-        $this->redirectRoute("admin");
-    }
 
 }
