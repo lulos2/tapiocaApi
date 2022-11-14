@@ -51,9 +51,9 @@ class ApiProductController extends BaseController {
 
     public function insertProduct() {
         $body = $this->getBody();
-        $slug = str_replace(" ", "-",$body->nombre);
+        $slug = str_replace(" ", "-",trim($body->nombre));
         if ($body) {
-            $id = $this->ropaModel->insertProduct($body->precio, $body->nombre, $body->descripcion, $body->img, body->coleccion, $body->categoria, $slug);
+            $id = $this->ropaModel->insertProduct($body->precio, $body->nombre, $body->descripcion, $body->id_coleccion_fk, $body->id_tipo_fk, $slug);
             if ($id)
                 $this->view->response("Se inserto la tarea", 200);
             else

@@ -36,9 +36,9 @@ class RopaModel {
         return $productsByCategory;
     }
 
-    public function insertProduct($precio,$nombre,$descripcion,$img,$coleccion = null,$categoria = null,$slug){
-        $sentencia = $this->db->prepare("INSERT INTO ropa(precio, nombre, descripcion, img, id_coleccion_fk, id_tipo_fk, slug) VALUES(?, ?, ?, ?, ?, ?, ?)");
-        $sentencia->execute(array($precio,$nombre,$descripcion,$img,$coleccion,$categoria,$slug));
+    public function insertProduct($precio,$nombre,$descripcion,$coleccion = null,$categoria = null,$slug){
+        $sentencia = $this->db->prepare("INSERT INTO ropa(precio, nombre, descripcion, id_coleccion_fk, id_tipo_fk, slug) VALUES(?, ?, ?, ?, ?, ?)");
+        $sentencia->execute(array($precio,$nombre,$descripcion,$coleccion,$categoria,$slug));
         return $this->db->lastInsertId();
     }
 
@@ -58,4 +58,6 @@ class RopaModel {
         $sentencia = $this->db->prepare("UPDATE ropa SET precio = ?, nombre = ?, descripcion = ?, id_coleccion_fk = ?, id_tipo_fk = ?, img = ? WHERE id = ?");
         $sentencia->execute(array($precio,$nombre,$descripcion,$coleccion,$categoria,$img,$id));
     }
+
+
 }
