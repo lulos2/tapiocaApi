@@ -1,8 +1,7 @@
 <?php
-require_once './libs/Router.php';
-require_once './controllers/ApiProductController.php';
+require_once 'libs/Router.php';
+require_once 'controllers/ApiProductController.php';
 
-// crea el router
 $router = new Router();
 
 // Manejo de productos
@@ -11,12 +10,11 @@ $router->addRoute('productos/:ID','GET' , 'ApiProductController' , 'getProduct')
 $router->addRoute('productos','POST' , 'ApiProductController' , 'insertProduct');
 $router->addRoute('productos/:ID','DELETE' , 'ApiProductController' , 'deleteProduct');
 
-// Manejo de Telefonos
-$router->addRoute('telefonos','GET','apiTelefonosController','traerTelefonos');
-$router->addRoute('telefonos/:DNI','GET','apiTelefonosController','traerTelefonos');
-$router->addRoute('telefonos/:DNI/:ID','GET','apiTelefonosController','traerTelefono');
-$router->addRoute('telefonos/:DNI','POST','apiTelefonosController','crearTelefono');
-$router->addRoute('telefonos/:DNI/:ID','DELETE','apiTelefonosController','borrarTelefono');
+// Manejo de categorias
+$router->addRoute('categorias','GET','ApiProductController','getCategories');
+$router->addRoute('categorias/:ID','GET','ApiProductController','getCategory');
+$router->addRoute('categorias','POST','ApiProductController','insertCategory');
+$router->addRoute('categorias/:ID','DELETE','ApiProductController','deleteCategory');
 
 // Manejo de Comentarios
 $router->addRoute('comentarios','GET','ApiComentariosController','traerComentarios');

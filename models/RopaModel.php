@@ -8,7 +8,7 @@ class RopaModel {
         $this->db = new PDO('mysql:host=localhost;'.'dbname=tapioca;charset=utf8', 'root', '');
     }
     
-    function getProductos(){
+    function getProducts(){
         $sentencia= $this->db->prepare("SELECT * FROM ropa");
         $sentencia->execute();
         $products = $sentencia->fetchAll(PDO::FETCH_OBJ);
@@ -39,6 +39,7 @@ class RopaModel {
     public function insertProduct($precio,$nombre,$descripcion,$img,$coleccion = null,$categoria = null,$slug){
         $sentencia = $this->db->prepare("INSERT INTO ropa(precio, nombre, descripcion, img, id_coleccion_fk, id_tipo_fk, slug) VALUES(?, ?, ?, ?, ?, ?, ?)");
         $sentencia->execute(array($precio,$nombre,$descripcion,$img,$coleccion,$categoria,$slug));
+        return $this->db->lastInsertId();
     }
 
     public function searchProduct($search){
