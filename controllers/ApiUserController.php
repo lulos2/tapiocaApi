@@ -1,6 +1,6 @@
 <?php
 require_once "models/UserModel.php";
-require_once "views/TapiocaView.php";
+require_once "views/ApiView.php";
 require_once "models/CategoriaModel.php";
 require_once "models/ColeccionModel.php";
 require_once "helpers/Helper.php";
@@ -8,7 +8,7 @@ require_once "controllers/BaseController.php";
 
 
 
-class UserController extends BaseController{
+class ApiUserController extends BaseController {
     
     private $userModel;
     private $userView;
