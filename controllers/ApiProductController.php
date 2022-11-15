@@ -1,15 +1,11 @@
 <?php
 require_once "controllers/BaseController.php";
-require_once "models/CategoriaModel.php";
-require_once "models/ColeccionModel.php";
 require_once "models/RopaModel.php";
 require_once "views/ApiView.php";
 
 class ApiProductController extends BaseController {
 
-    private $categoriaModel;
     private $ropaModel;
-    private $coleccionModel;
     private $entityAttributes;
 
     function __construct() {
@@ -18,9 +14,9 @@ class ApiProductController extends BaseController {
         $this->entityAttributes = $this->formatAttributesColumn($this->ropaModel->getAttributes());
     }
 
-    private function formatAttributesColumn(array $attributes){
+    private function formatAttributesColumn(array $attributes) {
         $result = [];
-        foreach ($attributes as $attribute){
+        foreach ($attributes as $attribute) {
             $result[] = $attribute['COLUMN_NAME'];
         }
         return $result;
@@ -59,33 +55,30 @@ class ApiProductController extends BaseController {
             else if(($filterColumn != null && $filterValue != null) && ($sort != null && $order != null)){
                 $products = $this->ropaModel->getFilteredAndSorted($filterColumn, $filterValue, $sort, $order);
             }
-
             if(!empty($products)){
                 $this->view->response($products, 200);
-            }else{
+            }
+            else{
                 $this->view->response("El producto no existe", 404);
             }
-
         }catch(Exception $exc){
             $this->view->response("Error interno del servidor", 500);
         }
     }
 
-    private function verify($sort, $order, $filterColumn, $filterValue){
+    private function verify($sort, $order, $filterColumn, $filterValue) {
         $columns = $this->entityAttributes;
-        if($sort != null && !in_array(strtolower($sort), $columns)){
+
+        if($sort != null && !in_array(strtolower($sort), $columns)) {
             $this->view->response("Atributo no existente", 400);
         }
-
-        if($order != null && strtolower($order) != 'asc' && strtolower($order) != 'desc'){
+        if($order != null && strtolower($order) != 'asc' && strtolower($order) != 'desc') {
             $this->view->response("orden invalido", 400);
         }
-
-        if($filterColumn !=null && !in_array(strtolower($filterColumn), $columns) && $filterValue == null){
+        if($filterColumn !=null && !in_array(strtolower($filterColumn), $columns) && $filterValue == null) {
             $this->view->response("Atributo no existente", 400);
         }
     }
-
 
     public function deleteProduct($params = null) {
         $id = $params[':ID'];
