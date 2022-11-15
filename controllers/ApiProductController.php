@@ -106,5 +106,4 @@ class ApiProductController extends BaseController {
             $this->view->response("Invalid JSON", 400);
     }
 
-
 }

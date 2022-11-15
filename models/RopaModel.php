@@ -4,7 +4,7 @@ class RopaModel {
     
     private $db;
     
-    function __construct(){
+    function __construct() {
         $this->db = new PDO('mysql:host=localhost;'.'dbname=tapioca;charset=utf8', 'root', '');
     }
     
@@ -68,7 +68,7 @@ class RopaModel {
 
     function getAll($sort, $order, $limit = null, $offset = null) {
         $query = "SELECT * FROM ropa ORDER BY $sort $order";
-        if($limit !== null && $offset !== null){
+        if($limit !== null && $offset !== null) {
             $query = $this->addPaginado($query, $limit, $offset);
         }
         $querydb = $this->db->prepare($query);
@@ -78,7 +78,7 @@ class RopaModel {
     }
 
     private function addPaginado(string $query,int $limit, int $offset) {
-        return $query .' LIMIT ' . $limit . ' OFFSET ' . $offset;
+        return $query . ' LIMIT ' . $limit . ' OFFSET ' . $offset;
     }
 
     function getFilteredAndSorted($filterColumn, $filterValue, $sort, $order) {
