@@ -15,7 +15,15 @@ class ApiProductController extends BaseController {
     function __construct() {
         parent::__construct();
         $this->ropaModel = new RopaModel();
-        $this->entityAttributes = $this->ropaModel->getAttributes();
+        $this->entityAttributes = $this->formatAttributesColumn($this->ropaModel->getAttributes());
+    }
+
+    private function formatAttributesColumn(array $attributes){
+        $result = [];
+        foreach ($attributes as $attribute){
+            $result[] = $attribute['COLUMN_NAME'];
+        }
+        return $result;
     }
 
     public function getProduct($params = null) {
@@ -28,25 +36,56 @@ class ApiProductController extends BaseController {
     }
 
     public function getProducts() {
-        $products = $this->ropaModel->getProducts();
-        if($products)
-            $this->view->response($products, 200);
-        else
-            $this->view->response("No hay productos", 404);
+        try{
+            $sort = $_GET['sort'] ?? null;
+            $order = $_GET['order'] ?? null;
+            $filterColumn = $_GET['filterColumn'] ?? null;
+            $filterValue = $_GET['filterValue'] ?? null;
+            $limit = $_GET['pageSize'] ?? null;
+            $page = $_GET['page'] ?? null;
+            $offset = ($limit && $page) ? ($limit * ($page - 1)) : null;
+
+            $this->verify($sort, $order, $filterColumn, $filterValue);
+
+            if($filterColumn == null && $filterValue == null && $sort == null && $order == null){
+                $products = $this->ropaModel->getAll('id', 'asc', $limit, $offset);
+            }
+            else if(($sort !=null && $order != null) && ($filterColumn == null && $filterValue == null)){
+                $products = $this->ropaModel->getAll($sort, $order, $limit, $offset);
+            }
+            else if(($filterColumn != null && $filterValue != null) && ($sort == null & $order == null)){
+                $products = $this->ropaModel->getFilteredAndSorted($filterColumn, $filterValue, 'id', 'asc');
+            }
+            else if(($filterColumn != null && $filterValue != null) && ($sort != null && $order != null)){
+                $products = $this->ropaModel->getFilteredAndSorted($filterColumn, $filterValue, $sort, $order);
+            }
+
+            if(!empty($products)){
+                $this->view->response($products, 200);
+            }else{
+                $this->view->response("El producto no existe", 404);
+            }
+
+        }catch(Exception $exc){
+            $this->view->response("Error interno del servidor", 500);
+        }
     }
 
-    public function getFilterProducts($attribute) {
-        if (in_array($attribute, $this->entityAttributes)) {
-            $products = $this->ropaModel->getProductsByAttribute($attribute);
-            if($products)
-                $this->view->response($products, 200);
-            else
-                $this->view->response("No hay productos", 404);
+    private function verify($sort, $order, $filterColumn, $filterValue){
+        $columns = $this->entityAttributes;
+        if($sort != null && !in_array(strtolower($sort), $columns)){
+            $this->view->response("Atributo no existente", 400);
         }
-        else {
-            $this->view->response("Atributo no existente", 404);
+
+        if($order != null && strtolower($order) != 'asc' && strtolower($order) != 'desc'){
+            $this->view->response("orden invalido", 400);
+        }
+
+        if($filterColumn !=null && !in_array(strtolower($filterColumn), $columns) && $filterValue == null){
+            $this->view->response("Atributo no existente", 400);
         }
     }
+
 
     public function deleteProduct($params = null) {
         $id = $params[':ID'];

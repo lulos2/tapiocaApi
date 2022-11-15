@@ -62,8 +62,33 @@ class RopaModel {
     public function getAttributes() {
         $sentencia = $this->db->prepare("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'ropa'");
         $sentencia->execute([]);
-        $attributes = $sentencia->fetchAll(PDO::FETCH_OBJ);
+        $attributes = $sentencia->fetchAll(PDO::FETCH_ASSOC);
         return $attributes;
+    }
+
+    function getAll($sort, $order, $limit = null, $offset = null){
+        $query = "SELECT * FROM ropa ORDER BY $sort $order";
+        if($limit !== null && $offset !== null){
+            $query = $this->addPaginado($query, $limit, $offset);
+            var_dump($query);
+        }
+        $querydb = $this->db->prepare($query);
+        $querydb->execute();
+        $products = $querydb->fetchAll(PDO::FETCH_OBJ);
+        return $products;
+    }
+    private function addPaginado(string $query,int $limit, int $offset){
+        return $query.' LIMIT ' . $limit . ' OFFSET ' . $offset;
+    }
+
+
+    function getFilteredAndSorted($filterColumn, $filterValue, $sort, $order){
+        $query = "SELECT * FROM ropa WHERE $filterColumn =? ORDER BY $sort $order";
+        $querydb = $this->db->prepare($query);
+        $querydb->execute(array($filterValue));
+        $products = $querydb->fetchAll(PDO::FETCH_OBJ);
+
+        return $products;
     }
 
 
