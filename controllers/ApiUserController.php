@@ -1,4 +1,7 @@
 <?php
+
+use helpers\AuthHelper;
+
 require_once "models/UserModel.php";
 require_once "views/ApiView.php";
 require_once "helpers/AuthHelper.php";

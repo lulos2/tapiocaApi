@@ -9,7 +9,7 @@ class ApiView {
         echo json_encode($data);
     }
 
-    private function _requestStatus($code){
+    private function _requestStatus($code) {
         $status = array(
             200 => "OK",
             201 => "Created",

@@ -1,4 +1,7 @@
 <?php
+
+use helpers\AuthHelper;
+
 require_once "controllers/BaseController.php";
 require_once "models/RopaModel.php";
 require_once "views/ApiView.php";
