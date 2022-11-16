@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2022 at 04:13 PM
+-- Generation Time: Nov 16, 2022 at 02:04 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -47,6 +47,19 @@ INSERT INTO `coleccion` (`id_coleccion`, `anio`, `nombre_coleccion`, `autor`, `e
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `comentarios`
+--
+
+CREATE TABLE `comentarios` (
+  `id_comentario_fk` int(255) NOT NULL,
+  `id_comentario` int(255) NOT NULL,
+  `autor` varchar(255) NOT NULL,
+  `comentario` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ropa`
 --
 
@@ -66,14 +79,20 @@ CREATE TABLE `ropa` (
 --
 
 INSERT INTO `ropa` (`id`, `precio`, `nombre`, `descripcion`, `img`, `id_coleccion_fk`, `id_tipo_fk`, `slug`) VALUES
-(29, 5000, 'Pantalón jogging gris', ' Jogging friza rústica con bolsillos laterales, cintura con ojalillos y cordón chato. De tejido suave, resistente y duradero. Prenda suelta, cómoda que permite a la piel respirar.', 'images/634819af4e587.jpg', 3, 6, 'Pantalón-jogging-gris'),
 (30, 10500, ' buso gris suelto', 'buso gris de poliester fabricado en indonesia por chinoss', 'images/63486e4fc9f1c.jpg', 3, 1, 'buso-gris-suelto'),
 (32, 12000, 'jean mujer', 'jean oscuro mujer ideal para salir a pasear al perro', 'images/634873cb48c3d.jpg', 4, 6, 'jean-mujer'),
 (33, 14000, 'jean hombre', 'descripcion de este gran jean', 'images/6348740eb254b.jpg', 4, 6, 'jean-hombre'),
 (34, 8000, 'sweater rojo', 'descripcion sweater rojo mujer para invierno', 'images/6348753a2c875.jpg', 3, 2, 'sweater-rojo'),
 (36, 4500, 'calza gris', 'calza deportiva gris ', 'images/63487d76375cb.jpg', 2, 6, 'calza-gris'),
 (37, 5000, 'jogging', 'Jogging friza rústica con bolsillos laterales, cintura con ojalillos y cordón chato. De tejido suave, resistente y duradero. Prenda suelta, cómoda que permite a la piel respirar.', 'images/63488a24c4352.jpg', 4, 6, 'jogging'),
-(39, 15000, 'buso rojo', 'buso rojo con capucha', 'images/6348e34cbdc25.jpg', 3, 1, 'buso-rojo');
+(39, 15000, 'buso rojo', 'buso rojo con capucha', 'images/6348e34cbdc25.jpg', 3, 1, 'buso-rojo'),
+(49, 11000, ' buso por api', ' buso gris de poliester fabricado en indonesia por chinossbuso gris de poliester fabricado en indonesia por chinoss', NULL, 3, 1, '-buso-por-api'),
+(50, 11000, ' buso por api', ' buso gris de poliester fabricado en indonesia por chinossbuso gris de poliester fabricado en indonesia por chinoss', NULL, 3, 1, 'buso-por-api'),
+(51, NULL, 'Buzo aguss', 'this is god', NULL, 3, 1, 'Buzo-aguss'),
+(52, 200, 'Buzo aguss', 'this is god', NULL, 3, 1, 'Buzo-aguss'),
+(53, 200, 'Buzo aguss', 'this is god', NULL, 3, 1, 'Buzo-aguss'),
+(54, 200, 'Buzo aguss', 'this is god', NULL, 3, 1, 'Buzo-aguss'),
+(55, 200, 'Buzo aguss', 'this is god', NULL, 3, 1, 'Buzo-aguss');
 
 -- --------------------------------------------------------
 
@@ -132,6 +151,12 @@ ALTER TABLE `coleccion`
   ADD PRIMARY KEY (`id_coleccion`);
 
 --
+-- Indexes for table `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD PRIMARY KEY (`id_comentario`);
+
+--
 -- Indexes for table `ropa`
 --
 ALTER TABLE `ropa`
@@ -163,10 +188,16 @@ ALTER TABLE `coleccion`
   MODIFY `id_coleccion` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `comentarios`
+--
+ALTER TABLE `comentarios`
+  MODIFY `id_comentario` int(255) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `ropa`
 --
 ALTER TABLE `ropa`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `tipo`
