@@ -102,7 +102,6 @@ class ApiProductController extends BaseController {
         else {
             $this->view->response("No autorizado", 403);
         }
-
     }
 
     public function insertProduct() {
@@ -110,7 +109,7 @@ class ApiProductController extends BaseController {
             $body = $this->getBody();
             if ($body) {
                 $slug = str_replace(" ", "-",trim($body->nombre));
-                $id = $this->ropaModel->insertProduct($body->precio, $body->nombre, $body->descripcion, $body->coleccion, $body->tipo, $slug);
+                $id = $this->ropaModel->insertProduct($body->precio, $body->nombre, $body->descripcion, $body->id_coleccion_fk, $body->id_tipo_fk, $slug);
                 if ($id)
                     $this->view->response("Se inserto la prenda", 200);
                 else
