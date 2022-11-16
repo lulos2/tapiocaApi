@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "194c3bad-193c-4fb9-9251-5ee6614c7b40",
+		"name": "TapiocaApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/tapiocaApi/api/productos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"tapiocaApi",
+						"api",
+						"productos"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "precio",
+							"disabled": true
+						},
+						{
+							"key": "order",
+							"value": "asc",
+							"disabled": true
+						},
+						{
+							"key": "filterColumn",
+							"value": "id",
+							"disabled": true
+						},
+						{
+							"key": "filterValue",
+							"value": "30",
+							"disabled": true
+						},
+						{
+							"key": "pageSize",
+							"value": "10",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insertar ropa",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "luciano",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "lulobareiss@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"nombre\": \"buzo generico\",\r\n        \"descripcion\": \"this is god\",\r\n        \"coleccion\": 3,\r\n        \"tipo\": 1,\r\n        \"precio\": 2003\r\n    }"
+				},
+				"url": {
+					"raw": "http://localhost/tapiocaApi/api/productos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"tapiocaApi",
+						"api",
+						"productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "borrar",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/tapiocaApi/api/productos/50",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"tapiocaApi",
+						"api",
+						"productos",
+						"50"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{email}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "password",
+			"value": "luciano",
+			"type": "default"
+		},
+		{
+			"key": "email",
+			"value": "lulobareiss@gmail.com",
+			"type": "default"
+		}
+	]
+}
