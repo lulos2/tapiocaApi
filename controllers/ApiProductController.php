@@ -12,13 +12,11 @@ class ApiProductController extends BaseController {
 
     private $ropaModel;
     private $entityAttributes;
-    private $authHelper;
 
     function __construct() {
         parent::__construct();
         $this->ropaModel = new RopaModel();
         $this->entityAttributes = $this->formatAttributesColumn($this->ropaModel->getAttributes());
-        $this->authHelper = new AuthHelper();
     }
 
     private function formatAttributesColumn(array $attributes) {
@@ -88,7 +86,7 @@ class ApiProductController extends BaseController {
     }
 
     public function deleteProduct($params = null) {
-        if($this->authHelper->isAuthorized()) {
+        if(AuthHelper::isAuthorized()) {
             $id = $params[':ID'];
             $product = $this->ropaModel->getProduct($id);
             if($product) {
@@ -105,11 +103,11 @@ class ApiProductController extends BaseController {
     }
 
     public function insertProduct() {
-        if($this->authHelper->isAuthorized()) {
+        if(AuthHelper::isAuthorized()) {
             $body = $this->getBody();
             if ($body) {
                 $slug = str_replace(" ", "-",trim($body->nombre));
-                $id = $this->ropaModel->insertProduct($body->precio, $body->nombre, $body->descripcion, $body->id_coleccion_fk, $body->id_tipo_fk, $slug);
+                $id = $this->ropaModel->insertProduct($body->precio, $body->nombre, $body->descripcion, $body->coleccion, $body->tipo, $slug);
                 if ($id)
                     $this->view->response("Se inserto la prenda", 200);
                 else
